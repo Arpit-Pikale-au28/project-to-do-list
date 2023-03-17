@@ -1,11 +1,14 @@
 <?php
-   
+session_start();
+if (isset($_SESSION['email'])) {
+    header("Location:dashboard.php");
+}
 
 if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
     require '../include/Db-connection.php';
-    try{
-        
+    try {
+
         $statement = $PDO->prepare("select id, email, password from  to_do_list.tbl_user where email = :email;");
         $statement->bindParam(':email', $_POST['email'], PDO::PARAM_STR);
         $statement->execute();
@@ -13,17 +16,17 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
         //$credentials = $statement->fetchAll();
 
-    }catch (PDOException $e){
+    } catch (PDOException $e) {
         echo $e->getMessage();
     }
-   
+
     $dbUserId = $credentials['id'];
     $dbEmail = $credentials['email'];
     $dbPassword = $credentials['password'];                         // default username - admin,  password - admin123
     $validPassword = password_verify($_POST['password'], $dbPassword);
-    
 
-   // save the session data and validate user
+
+    // save the session data and validate user
     session_start();
     if ($dbEmail == $_POST['email'] && $validPassword == true) {
         $_SESSION['id'] = $dbUserId;
@@ -44,9 +47,9 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php require '../include/boostarp.php'; ?>
 
-<body class="p-0 m-0 border-0 bd-example">
+<body class="p-0 m-0 border-0" style="background:url(../assets/images/styles-images/16-03-23\ 10:48:375172658.jpg);">
 
-    <div class="container w-25 mt-5 p-3 bg-body-secondary border border-primary-subtle">
+    <div class="container w-25 mt-5 p-3 bg-body-secondary border border-primary-subtle rounded">
         <h3 class="text-left">Log In</h3>
         <hr class="border border-danger border-2 opacity-50">
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST" onsubmit="return validateLogin()">

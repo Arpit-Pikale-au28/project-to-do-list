@@ -20,14 +20,15 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         $file_tmpnm = $_FILES['inputfile']['tmp_name'];
 
         // rename the file
-        $uploaded_file_name = date('d-m-y h:i:s') . $file_name;
-        
+        $uploaded_file_name = time() . $file_name;
+
         // move file to folder
         $isUploaded  = (move_uploaded_file($file_tmpnm, "../assets/images/user-images/" . $uploaded_file_name));
 
-        
-       // check if user alredy exists or not..
-        function checkUserExists(){
+
+        // check if user alredy exists or not..
+        function checkUserExists()
+        {
             global $PDO;
             global $inputEmail;
             $sql = 'select email from  to_do_list.tbl_user;';
@@ -36,16 +37,15 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $dbEmail = $credentials[0]['email'];
 
-            if($dbEmail == $inputEmail){
+            if ($dbEmail == $inputEmail) {
                 echo '<script type="text/javascript">';
                 echo 'alert("Oops User Already Registered.. You need to login");';
                 echo 'window.location.href = "login.php";';
                 echo '</script>';
                 return false;
-            }else {
+            } else {
                 return true;
             }
-
         }
         // insert a record into database
         if ($isUploaded && checkUserExists()) {
@@ -76,10 +76,9 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php require '../include/boostarp.php'; ?>
 
-<body class="p-0 m-0 border-0 bd-example" style="background:linear-gradient(#F1DEC9, #E9EDC9, #CBE4DE, #E9A178)">
-    <div class="main-container">
-
-        <div class="container w-50 p-3 my-4 bg-body-secondary border border-primary-subtle">
+<body class="p-0 m-0 border-0 bd-example" style="background:url(../assets/images/styles-images/17973908.jpg);">
+     
+        <div class="container w-50 p-3 my-4 rounded" style="background:url(../assets/images/styles-images/blue-abstract-gradient-wave-wallpaper.jpg);">
             <h1 class="text-center">Sign Up</h1>
             <div class="text-success">
                 <hr>
@@ -130,11 +129,8 @@ if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
 
-    </div>
-
-
-    <script src="../assets/js/formValidation.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets/js/formValidation.js"></script>
 </body>
 
 </html>
